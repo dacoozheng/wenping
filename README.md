@@ -15,6 +15,11 @@ npm run serve
 npm run build
 ```
 
+### Complies and start server
+```
+npm run build_and_start
+```
+
 ### Run your tests
 ```
 npm run test
@@ -24,3 +29,4 @@ npm run test
 ```
 npm run lint
 ```
+
