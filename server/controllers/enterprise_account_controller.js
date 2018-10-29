@@ -7,6 +7,8 @@ let delete_enterprise_account_sql = 'delete from enterprise_account where accoun
 let query_enterprise_account_sql = 'select * from enterprise_account order by create_date desc limit ?, ?';
 let total_enterprise_account_sql = 'select count(1) as count from enterprise_account';
 let check_exist_sql = 'select * from enterprise_account where enterprise_name = ? and alipay_account = ?';
+let check_operations_sql = 'select * from operations o where o.account_id = ? limit 1';
+let check_financial_sql = 'select * from financial_data f where f.account_id = ? limit 1';
 
 let getInsertParams = function(body) {
   let params = [];
@@ -68,10 +70,26 @@ exports.update_enterprise_account = function (req, res) {
         res.json(ret);
       });
     } else if (action === 'delete') {
-      connection.query(delete_enterprise_account_sql, [req.body.account_id], function (error, results) {
-        connection.release();
-        if (error) throw error;
-        res.json(ret);
+      connection.query(check_operations_sql, [req.body.account_id], function (error, results) {
+        if (!!results && results.length > 0) {
+          connection.release();
+          ret.status = 'can_not_delete_operations';
+          res.json(ret);
+        } else {
+          connection.query(check_financial_sql, [req.body.account_id], function (error, results) {
+            if (!!results && results.length > 0) {
+              connection.release();
+              ret.status = 'can_not_delete_financial';
+              res.json(ret);
+            } else {
+              connection.query(delete_enterprise_account_sql, [req.body.account_id], function (error, results) {
+                connection.release();
+                if (error) throw error;
+                res.json(ret);
+              });  
+            }
+          });
+        }
       });
     } else if (action === 'search') {
       connection.query(check_exist_sql, [req.body.enterprise_name, req.body.alipay_account], function (error, results) {

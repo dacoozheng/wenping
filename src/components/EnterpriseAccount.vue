@@ -64,6 +64,10 @@
           console.log(response);
           if (response.data.status === 'exist') {
             alert('相同的企业名称和支付宝账号已存在，不可重复添加。')
+          } else if (response.data.status === 'can_not_delete_operations') {
+            alert('该企业账号已有操作信息，不可删除，请先删除相关操作信息。');
+          } else if (response.data.status === 'can_not_delete_financial') {
+            alert('该企业账号已有财务信息，不可删除，请先删除相关财务信息。');
           } else {
             if (data.action === 'add') {
               alert('恭喜，添加成功！');
