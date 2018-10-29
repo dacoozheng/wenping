@@ -1,7 +1,7 @@
 <template>
   <div class="ui container">
     <vuetable ref="vuetable"
-              api-url="http://localhost:3000/api/operations"
+              api-url="/api/operations"
               :fields="fields"
               track-by="id"
               pagination-path=""

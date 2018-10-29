@@ -100,13 +100,13 @@ exports.query_enterprise_account = function (req, res) {
       if (next_page > ret.last_page) {
         ret.next_page_url = null;
       } else {
-        ret.next_page_url = 'http://localhost:3000/api/enterprise?page=' + next_page;
+        ret.next_page_url = '/api/enterprise?page=' + next_page;
       }
       let prev_page = ret.current_page - 1;
       if (prev_page < 1) {
         ret.prev_page_url = null;
       } else {
-        ret.prev_page_url = 'http://localhost:3000/api/enterprise?page=' + prev_page;
+        ret.prev_page_url = '/api/enterprise?page=' + prev_page;
       }
       ret.from = (ret.current_page - 1) * ret.per_page + 1;
       ret.to = (ret.current_page * ret.per_page) > ret.total ? ret.total : (ret.current_page * ret.per_page);

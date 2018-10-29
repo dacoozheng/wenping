@@ -1,7 +1,7 @@
 <template>
   <div class="ui container">
     <vuetable ref="vuetable"
-              api-url="http://localhost:3000/api/enterprise"
+              api-url="/api/enterprise"
               :fields="fields"
               track-by="account_id"
               pagination-path=""
@@ -44,13 +44,6 @@
     data () {
       return {
         fields: [
-          /*
-          {
-            name: '__checkbox',
-            titleClass: 'center aligned',
-            dataClass: 'center aligned'
-          },
-          */
           {
             name: 'enterprise_name',
             title: '企业名称',
